@@ -1,17 +1,22 @@
 package com.users.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+    @NotNull
     public Long id;
 
     @Column
+    @NotNull
     private String name;
 
     @Column
+    @NotNull
     private String surname;
 
     @Column
@@ -22,6 +27,10 @@ public class User {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
