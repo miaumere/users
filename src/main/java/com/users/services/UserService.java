@@ -19,13 +19,24 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public ResponseEntity getUsersById(Long id) throws DataAccessException{
+    public ResponseEntity getUsersById(Long id){
         User foundUser = userRepository.findById(id).orElse(null);
         if(foundUser != null) {
             ModelMapper modelMapper = new ModelMapper();
             UserDTO result = modelMapper.map(foundUser, UserDTO.class);
         return new ResponseEntity(result, HttpStatus.OK);
         }
-        return new ResponseEntity("Brak użytkownika o podanym id.",  HttpStatus.NOT_FOUND);
+        return new ResponseEntity(String.format("Brak użytkownika o id: %s.", id),  HttpStatus.NOT_FOUND);
+    }
+
+    public ResponseEntity deleteUser(Long id) {
+        User foundUser = userRepository.findById(id).orElse(null);
+        if(foundUser != null) {
+            userRepository.delete(foundUser);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity(String.format("Brak użytkownika o id: %s. Użytkownik mógł zostać wcześniej usunięty", id),
+                    HttpStatus.NOT_FOUND);
+        }
     }
 }
