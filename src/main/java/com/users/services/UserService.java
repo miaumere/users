@@ -1,4 +1,5 @@
 package com.users.services;
+import com.users.dto.NewUserDTO;
 import com.users.dto.UserDTO;
 import com.users.entities.User;
 import org.aspectj.weaver.ast.Test;
@@ -11,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import com.users.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -27,6 +26,21 @@ public class UserService {
         return new ResponseEntity(result, HttpStatus.OK);
         }
         return new ResponseEntity(String.format("Brak użytkownika o id: %s.", id),  HttpStatus.NOT_FOUND);
+    }
+
+    public ResponseEntity createUser(NewUserDTO request) {
+        User userToSave = new User();
+        userToSave.setName(request.getName());
+        userToSave.setSurname(request.getSurname());
+        userToSave.setGrade(request.getGrade());
+        userToSave.setSalary(request.getSalary());
+
+        if(!request.areFieldsEmpty()){
+        userRepository.saveAndFlush(userToSave);
+            return new ResponseEntity(HttpStatus.CREATED);
+        }else {
+            return new ResponseEntity("Aby dodać użytkownika, uzupełnij wszystkie pola.", HttpStatus.BAD_REQUEST);
+        }
     }
 
     public ResponseEntity deleteUser(Long id) {

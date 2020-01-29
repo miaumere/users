@@ -1,5 +1,6 @@
 package com.users.controllers;
 
+import com.users.dto.NewUserDTO;
 import com.users.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,11 @@ public class UserController {
     @GetMapping("get-user/{userId}")
     public ResponseEntity getUserById(@PathVariable Long userId) {
         return userService.getUsersById(userId);
+    }
+
+    @PostMapping("new-user")
+    public ResponseEntity createNewUser(@RequestBody NewUserDTO request) {
+        return userService.createUser(request);
     }
 
     @DeleteMapping("delete-user/{userId}")
