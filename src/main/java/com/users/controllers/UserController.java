@@ -1,6 +1,7 @@
 package com.users.controllers;
 
-import com.users.dto.NewUserDTO;
+import com.users.requests.EditUserRequest;
+import com.users.requests.NewUserRequest;
 import com.users.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,13 @@ public class UserController {
     }
 
     @PostMapping("new-user")
-    public ResponseEntity createNewUser(@RequestBody NewUserDTO request) {
+    public ResponseEntity createNewUser(@RequestBody NewUserRequest request) {
         return userService.createUser(request);
+    }
+
+    @PutMapping("edit-user")
+    public ResponseEntity editUser(@RequestBody EditUserRequest request) {
+        return userService.editUser(request);
     }
 
     @DeleteMapping("delete-user/{userId}")

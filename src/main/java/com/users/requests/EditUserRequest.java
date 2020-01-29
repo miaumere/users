@@ -1,10 +1,19 @@
-package com.users.dto;
+package com.users.requests;
 
-public class NewUserDTO {
+public class EditUserRequest {
+    private Long id;
     private String name;
     private String surname;
     private Integer grade;
     private Integer salary;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -39,10 +48,9 @@ public class NewUserDTO {
     }
 
     public boolean areFieldsEmpty() {
-        if(grade == null || salary == null || name == null || surname == null){
+        if(id == null || grade == null || salary == null || name == null || surname == null){
             return true;
         }
-
         return false;
     }
 }

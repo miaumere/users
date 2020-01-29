@@ -1,11 +1,9 @@
 package com.users.services;
-import com.users.dto.NewUserDTO;
+import com.users.requests.EditUserRequest;
+import com.users.requests.NewUserRequest;
 import com.users.dto.UserDTO;
 import com.users.entities.User;
-import org.aspectj.weaver.ast.Test;
 import org.modelmapper.ModelMapper;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -28,7 +26,7 @@ public class UserService {
         return new ResponseEntity(String.format("Brak użytkownika o id: %s.", id),  HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity createUser(NewUserDTO request) {
+    public ResponseEntity createUser(NewUserRequest request) {
         User userToSave = new User();
         userToSave.setName(request.getName());
         userToSave.setSurname(request.getSurname());
@@ -40,6 +38,26 @@ public class UserService {
             return new ResponseEntity(HttpStatus.CREATED);
         }else {
             return new ResponseEntity("Aby dodać użytkownika, uzupełnij wszystkie pola.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity editUser(EditUserRequest request) {
+        User userToEdit = userRepository.findById(request.getId()).orElse(null);
+        if(userToEdit != null && !request.areFieldsEmpty()) {
+            userToEdit.setName(request.getName());
+            userToEdit.setSurname(request.getSurname());
+            userToEdit.setGrade(request.getGrade());
+            userToEdit.setSalary(request.getSalary());
+
+            userRepository.saveAndFlush(userToEdit);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } if(request.areFieldsEmpty()) {
+            return new ResponseEntity("Nie wszystkie pola zostały uzupełnione.",
+                    HttpStatus.NOT_FOUND);
+        }
+        else {
+            return new ResponseEntity(String.format("Brak użytkownika o id: %s.", request.getId()),
+                    HttpStatus.NOT_FOUND);
         }
     }
 
