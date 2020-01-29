@@ -9,13 +9,19 @@ spring.datasource.password=password
 Po skonfigurowaniu połączenia z bazą PostgreSQL można już uruchomić lokalnie aplikację. 
 
 # Sposób użycia API 
+```
 api/users/get-user/{userId}
+```
 Zwraca dane o wybranym użytkowniku.
 
+```
 /api/users/delete-user/{userId}
+```
 Usuwa wybranego użytkownika.
 
+```
 /api/users/new-user
+```
 ```
 {
 	"name": "John",
@@ -25,8 +31,9 @@ Usuwa wybranego użytkownika.
 }
 ```
 Tworzy nowego użytkownika.
-
+```
 /api/users/edit-user
+```
 ```
 {
 	"id": 8,
@@ -38,9 +45,11 @@ Tworzy nowego użytkownika.
 ```
 Edytuje użytkownika o wybranym id.
 
+```
 /api/users/search-user
-
+```
+```
 api/users/search-user?salary=2300&name=David&surname=Test&grade=12
-
+```
 Zwraca poszukiwanego użytkownika w zależności od podanych query parameters.
 
