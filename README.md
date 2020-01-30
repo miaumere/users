@@ -1,27 +1,44 @@
 # Sposób uruchomienia:
-W users/src/main/resources/ należy skonfigurować połączenie z bazą. 
-```
-spring.datasource.url=jdbc:postgresql://host:5432/databasename
-spring.datasource.username=username
-spring.datasource.password=password
-```
 
-Po skonfigurowaniu połączenia z bazą PostgreSQL można już uruchomić lokalnie aplikację. 
+## Połączenie z bazą
 
-# Sposób użycia API 
-```
-api/users/get-user/{userId}
-```
-Zwraca dane o wybranym użytkowniku.
+W users/src/main/resources/ należy skonfigurować połączenie z bazą.
 
 ```
-/api/users/delete-user/{userId}
+spring.datasource.url=jdbc:postgresql://host:5432/{{databasename}}
+spring.datasource.username={{username}}
+spring.datasource.password={{password}}
 ```
-Usuwa wybranego użytkownika.
+
+Po skonfigurowaniu połączenia z bazą PostgreSQL można już uruchomić lokalnie aplikację.
+
+## Uruchomienie
+
+Aby uruchomić aplikacje należy posiadać:
+
+- [Java Dev Kit (w wersji min. 8)](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+- [Apache Maven](https://maven.apache.org/download.cgi)
+
+Następnie w kontekście katalogu src uruchomić aplikacje komendą:
 
 ```
-/api/users/new-user
+mvnw spring-boot:run
 ```
+# API
+
+| Endpoint                          |                                    Opis                                     | Metoda |
+| --------------------------------- | :-------------------------------------------------------------------------: | :----: |
+| `/api/users/get-user/{userId}`    |                     Zwraca dane o wybranym użytkowniku.                     |  GET   |
+| `/api/users/delete-user/{userId}` |                        Usuwa wybranego użytkownika.                         | DELETE |
+| `/api/users/new-user`             |                         Tworzy nowego użytkownika.                          |  POST  |
+| `/api/users/edit-user`            |                     Edytuje użytkownika o wybranym id.                      |  PUT   |
+| `/api/users/search-user`          | Zwraca poszukiwanego użytkownika w zależności od podanych query parameters. |  GET  |
+
+## Parametry / requets body dla endpointów (przykłady)
+
+**Tworzenie nowego użytkownika**
+_Request body:_
+
 ```
 {
 	"name": "John",
@@ -30,10 +47,11 @@ Usuwa wybranego użytkownika.
 	"salary": 2000
 }
 ```
-Tworzy nowego użytkownika.
-```
-/api/users/edit-user
-```
+---
+**Edycja istniejącego użytkownika**
+
+_Request body:_
+
 ```
 {
 	"id": 8,
@@ -43,13 +61,18 @@ Tworzy nowego użytkownika.
 	"salary": 2300
 }
 ```
-Edytuje użytkownika o wybranym id.
+
+---
+
+**Wyszukiwanie użytkownika**
+
+_QueryParams:_
 
 ```
-/api/users/search-user
+?salary=2300&name={{name}}&surname={{surname}}&grade={{grade}}
 ```
-```
-api/users/search-user?salary=2300&name=David&surname=Test&grade=12
-```
-Zwraca poszukiwanego użytkownika w zależności od podanych query parameters.
+
+
+# Użyte technologie
+PostgreSQL, Java 8, Spring Boot 2.2.4, Maven
 
