@@ -19,10 +19,10 @@ Aby uruchomić aplikacje należy posiadać:
 - [Java Dev Kit (w wersji min. 8)](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 - [Apache Maven](https://maven.apache.org/download.cgi)
 
-Następnie w kontekście katalogu src uruchomić aplikacje komendą:
+Następnie w kontekście katalogu głównego uruchomić aplikacje komendą:
 
 ```
-mvnw spring-boot:run
+./mvnw spring-boot:run
 ```
 # API
 
